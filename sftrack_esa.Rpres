@@ -1,0 +1,166 @@
+Introducing sftrack: A framework for movement data in R
+========================================================
+author: Matthew Boone, Rocio Joo, Mathieu Basille
+date: 2020-20-07
+
+<style>
+.small-code pre code {
+  font-size: .95em;
+}
+</style>
+
+History of movement data in R
+========================================================
+
+Movement data - tracking of individuals with axis (x,y,t,id)
+
+- Proliferation of study in the last 20 years.
+- Devices: gps, satellite, accelerometer, light loggers, cameras, telemetry, etc...
+- Over 70 R packages on tracking alone \*\*.
+
+\*\*[_*Tracking - Cran Task View (R.Joo, M.Boone, M.Sumner, M.Basille*_)](https://cran.r-project.org/web/views/Tracking.html)
+
+***
+
+![](/home/matt/r_programs/sftrack_esa/images/timeline.png)
+
+R Landscape
+========================================================
+
+- Packages to tackle every sensor and analysis combination.
+- However there is little overlap between classes and structure.
+- Collaboration remains low outside of the core packages
+
+\*\*Joo, R., Boone, M.E., Clay T.A., Patrick S.C., Clusella-Trullas, S., Basille, M. [_*Navigating through the R packages for movement.*_](https://besjournals.onlinelibrary.wiley.com/doi/epdf/10.1111/1365-2656.13116), (doi: 10.1111/1365-2656.13116)
+
+***
+
+![](/home/matt/r_programs/sftrack_esa/images/Screenshot from 2020-07-19 14-22-52.png)
+
+Need for a new defining class
+========================================================
+
+- Many classes to work with depending on the sensor, data, or analysis.
+- Most methods written in S4 which provides limited flexibility for user.
+- Additionally documentation of methods for each class remains limited
+- Adding to inefficiencies for users and potential developers. (time = less research)
+
+
+***
+
+![](/home/matt/r_programs/sftrack_esa/images/index.svg)
+
+
+
+`sf` package (Edzer, P. 2018)
+========================================================
+
+![](/home/matt/r_programs/sftrack_esa/images/map_sf)
+
+
+`sf` 
+========================================================
+
+- Moved back to S3 methods, implementing the simple features standard (ISO 19125-1:2004)
+- Data is done inside a data.frame. Tibble ready, pipeable, and contains ggplot functions.
+- It just plain works.
+
+***
+![](/home/matt/r_programs/sftrack_esa/images/Screenshot from 2020-07-19 16-02-29.png)
+
+Goals for `sftrack`
+========================================================
+
+Over-arching goals
+- Build a tracking framework in R that will be accepted by the community.
+- Increase the buy in by developers so they develop the framework.
+
+Technical qualities
+ - Seamless integration with `sf` (work like an `sf` object because it is one.)
+ - Easy for users to understand and modify. 
+ - Hierarchical grouping structure
+ - No loss conversion between movement models and interclass conversion between packages.
+ - Transparent methods and documentation for users and developers.
+
+Goals for `sftrack`
+========================================================
+type: prompt
+
+**Our goals are not to replace any of these existing packages. But to create a class that is flexible enough
+to be used by all these packages.**
+
+![](/home/matt/r_programs/sftrack_esa/images/Screenshot from 2020-07-19 14-22-52.png)
+
+Beginnings of `sftrack`
+========================================================
+- Call for use cases at the end of 2019
+- Began coding beginning of 2020.
+- We are at the stage now were we need user input to move forward
+
+Format of an `sftrack`
+========================================================
+class: small-code
+
+```{r, echo = FALSE}
+devtools::load_all("/home/matt/r_programs/sftrack")
+```
+
+```{r}
+data('raccoon')
+
+head(raccoon)
+```
+
+##### Create timestamp
+
+```{r}
+raccoon$timestamp <- as.POSIXct(paste0(raccoon$utc_date, raccoon$utc_time))
+```
+
+##### Create an sftrack
+```{r}
+my_sftrack <- as_sftrack(raccoon, burst = c(id='sensor_code'), coords = c('longitude','latitude'), time = 'timestamp', error = 'hdop')
+```
+
+Format of an `sftrack`
+========================================================
+class: small-code
+
+- sf column
+- a novel grouping category (we're currently calling a burst)
+- time (as.POSIXct or integer)
+- an error column
+
+```{r}
+head(my_sftrack)
+```
+
+Format of an `sftrack`
+========================================================
+class: small-code
+
+- a standard point model: `sftrack` (POINT)
+- a step model: `sftraj` (LINESTRING/POINT mixture of t1 ->t2)
+
+```{r}
+my_sftraj <- as_sftraj(raccoon, burst = c(id='sensor_code'), coords = c('longitude','latitude'), time = 'timestamp')
+head(my_sftraj)
+```
+
+
+Example of sftrack (A couple of slides needed)
+========================================================
+- sftrack reads in data, At present we've written in methods for ltraj, sf, and are working on tibble methods as well
+- sftrack formats data so that everyone understands whats going on, and its being built with a developers in mind.
+- Grouping category can be hierarchical
+- Print methods view points.
+- Calculate step metrics
+- And do analysis
+
+How can you help?
+========================================================
+- We've gathered usecases, but greatly need more.
+- Please go to sftrack github and submit use cases ([github.com/mablab/sftrack](https://github.com/mablab/sftrack)).
+- A version should be up on CRAN soon. 
+- We need your input on many technical issues and the framework. (Perhaps will have issues up on )
+
