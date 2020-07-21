@@ -117,13 +117,27 @@ Requirements for an sftrack object
 Optional
 - error column (no specific details yet)
 
-```{r, echo = FALSE}
-devtools::load_all("/home/matt/r_programs/sftrack")
-data(raccoon)
-library(lubridate)
-raccoon$timestamp <- ymd_hms(paste(raccoon$utc_date, raccoon$utc_time))
-my_sftrack <- as_sftrack(raccoon, burst = 'sensor_code', coords = c('longitude','latitude'), time = 'timestamp')
-head(my_sftrack)
+
+```
+Sftrack with 6 features and 12 fields (3 empty geometries) 
+Geometry : "geometry" (XY, crs: NA) 
+Timestamp : "timestamp" (POSIXct in UTC) 
+Burst : "burst" (*id*) 
+-------------------------------
+  sensor_code   utc_date utc_time latitude longitude height hdop vdop fix
+1        CJ11 2019-01-19 00:02:30       NA        NA     NA  0.0  0.0  NO
+2        CJ11 2019-01-19 01:02:30 26.06945 -80.27906      7  6.2  3.2  2D
+3        CJ11 2019-01-19 02:02:30       NA        NA     NA  0.0  0.0  NO
+4        CJ11 2019-01-19 03:02:30       NA        NA     NA  0.0  0.0  NO
+5        CJ11 2019-01-19 04:02:30 26.06769 -80.27431    858  5.1  3.2  2D
+6        CJ11 2019-01-19 05:02:30 26.06867 -80.27930    350  1.9  3.2  3D
+            timestamp      burst                   geometry
+1 2019-01-19 00:02:30 (id: CJ11)                POINT EMPTY
+2 2019-01-19 01:02:30 (id: CJ11) POINT (-80.27906 26.06945)
+3 2019-01-19 02:02:30 (id: CJ11)                POINT EMPTY
+4 2019-01-19 03:02:30 (id: CJ11)                POINT EMPTY
+5 2019-01-19 04:02:30 (id: CJ11) POINT (-80.27431 26.06769)
+6 2019-01-19 05:02:30 (id: CJ11)  POINT (-80.2793 26.06867)
 ```
 
 
@@ -135,10 +149,27 @@ class: small-code
 - `sftraj` - step model class :  GEOMETRY(LINESTRING & POINTs)
   - Linear interpolation from t1 -> t2
 
-```{r, echo = FALSE}
 
-my_sftraj <- as_sftraj(raccoon, burst = 'sensor_code', coords = c('longitude','latitude'), time = 'timestamp')
-head(my_sftraj)
+```
+Sftraj with 6 features and 12 fields (3 empty geometries) 
+Geometry : "geometry" (XY, crs: NA) 
+Timestamp : "timestamp" (POSIXct in UTC) 
+Burst : "burst" (*id*) 
+-------------------------------
+  sensor_code   utc_date utc_time latitude longitude height hdop vdop fix
+1        CJ11 2019-01-19 00:02:30       NA        NA     NA  0.0  0.0  NO
+2        CJ11 2019-01-19 01:02:30 26.06945 -80.27906      7  6.2  3.2  2D
+3        CJ11 2019-01-19 02:02:30       NA        NA     NA  0.0  0.0  NO
+4        CJ11 2019-01-19 03:02:30       NA        NA     NA  0.0  0.0  NO
+5        CJ11 2019-01-19 04:02:30 26.06769 -80.27431    858  5.1  3.2  2D
+6        CJ11 2019-01-19 05:02:30 26.06867 -80.27930    350  1.9  3.2  3D
+            timestamp      burst                       geometry
+1 2019-01-19 00:02:30 (id: CJ11)                    POINT EMPTY
+2 2019-01-19 01:02:30 (id: CJ11)     POINT (-80.27906 26.06945)
+3 2019-01-19 02:02:30 (id: CJ11)                    POINT EMPTY
+4 2019-01-19 03:02:30 (id: CJ11)                    POINT EMPTY
+5 2019-01-19 04:02:30 (id: CJ11) LINESTRING (-80.27431 26.06...
+6 2019-01-19 05:02:30 (id: CJ11) LINESTRING (-80.2793 26.068...
 ```
 
 
@@ -154,19 +185,32 @@ class: small-code
 class: small-code
 ##### Creating timestamp
 
-```{r}
+
+```r
 data('raccoon')
 
 head(raccoon)
 ```
+
+```
+  sensor_code   utc_date utc_time latitude longitude height hdop vdop fix
+1        CJ11 2019-01-19 00:02:30       NA        NA     NA  0.0  0.0  NO
+2        CJ11 2019-01-19 01:02:30 26.06945 -80.27906      7  6.2  3.2  2D
+3        CJ11 2019-01-19 02:02:30       NA        NA     NA  0.0  0.0  NO
+4        CJ11 2019-01-19 03:02:30       NA        NA     NA  0.0  0.0  NO
+5        CJ11 2019-01-19 04:02:30 26.06769 -80.27431    858  5.1  3.2  2D
+6        CJ11 2019-01-19 05:02:30 26.06867 -80.27930    350  1.9  3.2  3D
+```
 ###### Create timestamps
-```{r}
+
+```r
 library(lubridate)
 raccoon$timestamp <- ymd_hms(paste(raccoon$utc_date, raccoon$utc_time))
 ```
 
 ##### Create an sftrack
-```{r}
+
+```r
 my_sftrack <- as_sftrack(raccoon, burst = 'sensor_code', coords = c('longitude','latitude'), time = 'timestamp', error = 'hdop')
 ```
 
@@ -175,14 +219,30 @@ my_sftrack <- as_sftrack(raccoon, burst = 'sensor_code', coords = c('longitude',
 class: smaller-code
 Troubleshooting inputs  
 Duplicated time stamps
-```{r}
+
+```r
 raccoon$timestamp[1] <- raccoon$timestamp[2]
 try(as_sftrack(raccoon, burst = 'sensor_code', coords = c('longitude','latitude'), time = 'timestamp'))
 ```
 
+```
+Error in dup_timestamp(time = data[[time_col]], x = burst) : 
+  bursts: CJ11 have duplicated time stamps
+```
+
 Identify duplicated group/timestamps
-```{r}
+
+```r
 which_duplicated(raccoon, burst = c(id='sensor_code'), time = 'timestamp')
+```
+
+```
+  burst                time which_row
+1  CJ11 2019-01-19 01:02:30         1
+2  CJ11 2019-01-19 01:02:30         2
+```
+
+```r
 raccoon <- raccoon[-2,]
 ```
 
@@ -197,10 +257,40 @@ class: small-code
 - Dynamically switch between 'active' groups
 - Readable and accessible as a list or with `sftrack` functions.
 
-```{r}
+
+```r
 raccoon$month <- month(raccoon$timestamp)
 my_sftrack <- as_sftrack(raccoon, burst = c(id='sensor_code', month = 'month'), coords = c('longitude','latitude'), time = 'timestamp', active_burst = 'id', crs= 'EPSG:4326')
 head(my_sftrack)
+```
+
+```
+Sftrack with 6 features and 13 fields (3 empty geometries) 
+Geometry : "geometry" (XY, crs: EPSG:4326) 
+Timestamp : "timestamp" (POSIXct in UTC) 
+Burst : "burst" (*id*) 
+-------------------------------
+  sensor_code   utc_date utc_time latitude longitude height hdop vdop fix
+1        CJ11 2019-01-19 00:02:30       NA        NA     NA  0.0  0.0  NO
+3        CJ11 2019-01-19 02:02:30       NA        NA     NA  0.0  0.0  NO
+4        CJ11 2019-01-19 03:02:30       NA        NA     NA  0.0  0.0  NO
+5        CJ11 2019-01-19 04:02:30 26.06769 -80.27431    858  5.1  3.2  2D
+6        CJ11 2019-01-19 05:02:30 26.06867 -80.27930    350  1.9  3.2  3D
+7        CJ11 2019-01-19 06:02:30 26.06962 -80.27908     11  2.3  4.5  3D
+            timestamp month                burst
+1 2019-01-19 01:02:30     1 (id: CJ11, month: 1)
+3 2019-01-19 02:02:30     1 (id: CJ11, month: 1)
+4 2019-01-19 03:02:30     1 (id: CJ11, month: 1)
+5 2019-01-19 04:02:30     1 (id: CJ11, month: 1)
+6 2019-01-19 05:02:30     1 (id: CJ11, month: 1)
+7 2019-01-19 06:02:30     1 (id: CJ11, month: 1)
+                    geometry
+1                POINT EMPTY
+3                POINT EMPTY
+4                POINT EMPTY
+5 POINT (-80.27431 26.06769)
+6  POINT (-80.2793 26.06867)
+7 POINT (-80.27908 26.06962)
 ```
 
 `sftrack` in the data process - grouping
@@ -208,38 +298,70 @@ head(my_sftrack)
 class: small-code
 
 Active Burst  
-```{r}
+
+```r
 active_burst(my_sftrack)
-plot(my_sftrack, axes = TRUE)
+```
 
 ```
+[1] "id"
+```
+
+```r
+plot(my_sftrack, axes = TRUE)
+```
+
+![plot of chunk unnamed-chunk-9](sftrack_esa-figure/unnamed-chunk-9-1.png)
 
 `sftrack` in the data process - grouping
 ========================================================
 class: small-code
 
 Changing group 
-```{r}
+
+```r
 #change active_burst
 active_burst(my_sftrack) <- c('id','month')
 plot(my_sftrack, axes = TRUE)
-
 ```
+
+![plot of chunk unnamed-chunk-10](sftrack_esa-figure/unnamed-chunk-10-1.png)
 
 `sftrack` in the data process - Calculate step metrics
 ========================================================
 class: smaller-code
 
 Calculate steps
-```{r}
+
+```r
 #change active_burst
 step_calc <- step_metrics(my_sftrack)[5:10,]
 summary(step_calc)
 ```
 
+```
+       dx                dy               dist               dt       
+ Min.   :-14.464   Min.   :-22.513   Min.   :  0.000   Min.   : 3574  
+ 1st Qu.: -2.924   1st Qu.:-10.214   1st Qu.:  1.409   1st Qu.: 3581  
+ Median : 52.779   Median : -5.837   Median : 10.669   Median : 3600  
+ Mean   : 79.707   Mean   : -9.519   Mean   : 59.356   Mean   : 8396  
+ 3rd Qu.:135.409   3rd Qu.: -5.142   3rd Qu.: 84.197   3rd Qu.: 3620  
+ Max.   :227.733   Max.   : -3.891   Max.   :227.766   Max.   :32400  
+ NA's   :2         NA's   :2                                          
+   abs_angle         speed            sftrack_id       
+ Min.   :1.588   Min.   :0.0000000   Length:6          
+ 1st Qu.:1.734   1st Qu.:0.0003942   Class :character  
+ Median :2.380   Median :0.0029846   Mode  :character  
+ Mean   :2.665   Mean   :0.0164976                     
+ 3rd Qu.:3.311   3rd Qu.:0.0233958                     
+ Max.   :4.312   Max.   :0.0632860                     
+ NA's   :2                                             
+```
+
 Filter out points
 
-```{r}
+
+```r
 my_sftrack <- my_sftrack[step_calc$speed<100,]
 ```
 
@@ -247,13 +369,16 @@ my_sftrack <- my_sftrack[step_calc$speed<100,]
 ========================================================
 class: small-code
 
-```{r}
+
+```r
 library(OpenStreetMap)
 map1 <- openmap(c(26.08,-80.285),c(26.06,-80.265),zoom=15, type='bing')
 map1 <- openproj(map1)
 plot(map1)
 plot(my_sftrack, add= T,pch=4,lwd=2)
 ```
+
+![plot of chunk unnamed-chunk-13](sftrack_esa-figure/unnamed-chunk-13-1.png)
 
 `sftrack` in the data process - Subset points
 ========================================================
