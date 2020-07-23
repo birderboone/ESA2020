@@ -1,0 +1,49 @@
+
+.reveal h1, .reveal h2, .reveal h3 {
+  word-wrap: normal;
+  -moz-hyphens: none;
+}
+
+.reveal p { 
+  font-size: 35px;
+  color: white;
+}
+
+.reveal li { 
+  font-size: 30px;
+  color: blue;
+}
+
+
+
+.small-code pre code {
+  font-size: .93em;
+}
+
+
+
+.smaller-code pre code {
+  font-size: .9em;
+}
+
+
+
+.footer {
+    background: #E8E8E8;
+    position: fixed;
+    top: 99%;
+    text-align:center;
+    width:100%;
+    color: green;
+    font-size:10px;
+}
+
+
+.section .reveal .state-background {
+    background: url("/home/matt/r_programs/sftrack_esa/images/test_background.png");
+    background-position: right center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+
+} 

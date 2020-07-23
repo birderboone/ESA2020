@@ -1,106 +1,100 @@
+
+
 Introducing sftrack: A framework for movement data in R
 ========================================================
 author: Matthew Boone, Rocio Joo, Mathieu Basille
 date: 2020-20-07
-
-<style>
-.small-code pre code {
-  font-size: .93em;
-}
-</style>
-
-<style>
-.smaller-code pre code {
-  font-size: .9em;
-}
-</style>
+css: esa.css
+width: 1440
+height: 900
 History of movement data in R
 ========================================================
+type: section
+left: 45%
 <!-- Its too long, but I can cut it once I figure out the best format, and even post the long version as a 'handout'.--->
-
-Movement data - tracking of individuals with axis (x,y,t)
-
+<br>
+- tracking of individuals with axis (x,y,t)
 - Proliferation of study in the last 20 years.
 - Devices: gps, satellite, accelerometer, light loggers, cameras, telemetry, etc...
-- Over 70 R packages on tracking alone \*\*.
+- Over 70 R packages on tracking alone<sup style='font-size:10px;'>1</i>
 
-\*\*[_*Tracking - Cran Task View (R.Joo, M.Boone, M.Sumner, M.Basille*_)](https://cran.r-project.org/web/views/Tracking.html)
 
+<div class='footer' style="font-size:15px; line-height:15px;">
+<sup style="font-size:50%;">1</sup> Tracking - Cran Task View. R.Joo, M.Boone, M.Sumner, M.Basille <b>(https://cran.r-project.org/web/views/Tracking.html)</b><br>
+<sup style="font-size:50%;">fig</sup>Joo, R., Picardi, S., Boone, M., Clay, T., Patrick, S., Romero-Romero, V., Basille, M., A Decade of Movement Ecology, 2020.<a href='https://arxiv.org/abs/2006.00110v1'> arXiv:2006.00110 </a>    
+</div>
 ***
 
 ![](/home/matt/r_programs/sftrack_esa/images/timeline.png)
 
 R Landscape
 ========================================================
-
+type: section
+title: TRUE
+left: 40%
+<br>
 - Packages to tackle every sensor and analysis combination.
 - However there is little overlap between classes and structure.
-- Collaboration remains low outside of the core packages
+- Collaboration remains low outside of the core packages<sup style='font-size:10px;'>1</i>
 
-\*\*Joo, R., Boone, M.E., Clay T.A., Patrick S.C., Clusella-Trullas, S., Basille, M. [_*Navigating through the R packages for movement.*_](https://besjournals.onlinelibrary.wiley.com/doi/epdf/10.1111/1365-2656.13116), (doi: 10.1111/1365-2656.13116)
+<div class='footer' style="font-size:15px; line-height:15px;">
+
+<sup style="font-size:50%;">1</sup>Joo, R., Boone, M.E., Clay T.A., Patrick S.C., Clusella-Trullas, S., Basille, M. Navigating through the R packages for movement, Journal of Animal Ecology. 2019. <a href='https://besjournals.onlinelibrary.wiley.com/doi/epdf/10.1111/1365-2656.13116'>doi: 10.1111/1365-2656.13116</a><br>
+ 
+
+
+
+</div>
 
 ***
-
+Depends and Suggests of movement packages in R
 ![](/home/matt/r_programs/sftrack_esa/images/Screenshot from 2020-07-19 14-22-52.png)
 
 Need for a new defining class
 ========================================================
-
+type: section
+left: 40%
+<br>
 - Many classes to work with depending on the sensor, data, or analysis.
 - Most methods written in S4 which provides limited flexibility for user.
 - Additionally documentation of methods for each class remains limited
 - Adding to inefficiencies for users and potential developers. (time = less research)
-
-
 ***
-
-![](/home/matt/r_programs/sftrack_esa/images/index.svg)
-
-
+<br>
+![](/home/matt/r_programs/sftrack_esa/images/index.png)
 
 `sf` package (Edzer, P. 2018)
 ========================================================
-
-![](/home/matt/r_programs/sftrack_esa/images/map_sf)
-
-
-`sf` 
-========================================================
-
+type: section
+left: 40%
+<br>
 - Moved back to S3 methods, implementing the simple features standard (ISO 19125-1:2004)
 - Data is done inside a data.frame. Tibble ready, pipeable, and contains ggplot functions.
 - It just plain works.
 
 ***
+<br>
 ![](/home/matt/r_programs/sftrack_esa/images/Screenshot from 2020-07-19 16-02-29.png)
 
 Goals for `sftrack`
 ========================================================
-
-Over-arching goals
-- Build a tracking framework in R that will be accepted by the community.
-- Increase the buy in by developers so they develop the framework.
-
-Technical qualities
- - Seamless integration with `sf` (work like an `sf` object because it is one.)
- - Easy for users to understand and modify. 
- - Hierarchical grouping structure
- - No loss conversion between movement models and interclass conversion between packages.
- - Transparent methods and documentation for users and developers.
- 
- ![](/home/matt/r_programs/sftrack_esa/images/move_framework.svg)
-
+type: section
+left:40%
+<br>
+- Build a movement framework that the community will buy into
+- Make methods and documentation transparent
+ ![](/home/matt/r_programs/sftrack_esa/images/move_framework.png)
 Goals for `sftrack`
 ========================================================
 type: prompt
-
 **Our goals are not to replace any of these existing packages. But to create a class that is flexible enough
 to be used by all these packages.**
-
-![](/home/matt/r_programs/sftrack_esa/images/Screenshot from 2020-07-19 14-22-52.png)
-
+<div align="center">
+<img src='/home/matt/r_programs/sftrack_esa/images/Screenshot from 2020-07-19 14-22-52.png'  width=800 height=700>
+</div>
 History of `sftrack`
 ========================================================
+type: section
 - Call for use cases at the end of 2019
 - Began coding beginning of 2020.
 - Developed current framework in Spring 2020 and release version on CRAN shortly
@@ -108,6 +102,7 @@ History of `sftrack`
 
 Format of an `sftrack`
 ========================================================
+type: section
 class: small-code
 
 Requirements for an sftrack object
@@ -117,6 +112,7 @@ Requirements for an sftrack object
 Optional
 - error column (no specific details yet)
 
+***
 
 ```
 Sftrack with 6 features and 12 fields (3 empty geometries) 
@@ -143,12 +139,14 @@ Burst : "burst" (*id*)
 
 Format of an `sftrack` - Class models
 ========================================================
+type: section
 class: small-code
 
 - `sftrack` - standard point class, POINT geometry  
 - `sftraj` - step model class :  GEOMETRY(LINESTRING & POINTs)
   - Linear interpolation from t1 -> t2
-
+  
+***
 
 ```
 Sftraj with 6 features and 12 fields (3 empty geometries) 
@@ -172,16 +170,18 @@ Burst : "burst" (*id*)
 6 2019-01-19 05:02:30 (id: CJ11) LINESTRING (-80.2793 26.068...
 ```
 
-
+<!--
 `sftrack` in the data process
 ========================================================
+type: section
 class: small-code
-`sftrack` can help at multiple points in the data process:
-![](/home/matt/r_programs/sftrack_esa/images/move_framework.svg)
 
+![](/home/matt/r_programs/sftrack_esa/images/move_framework.png)
+-->
 
 `sftrack` in the data process - Reading/Inputting
 ========================================================
+type: section
 class: small-code
 ##### Creating timestamp
 
@@ -216,6 +216,7 @@ my_sftrack <- as_sftrack(raccoon, burst = 'sensor_code', coords = c('longitude',
 
 `sftrack` in the data process 
 ========================================================
+type: section
 class: smaller-code
 Troubleshooting inputs  
 Duplicated time stamps
@@ -250,17 +251,22 @@ Additionally will check for inappropriate NAs in coordinates and grouping catego
 
 `sftrack` in the data process - grouping
 ========================================================
+type: section
 class: small-code
-
+left:40%
+<br>
 - Name pending
 - Grouping class that can be linear or hierarchical.
 - Dynamically switch between 'active' groups
 - Readable and accessible as a list or with `sftrack` functions.
 
+*** 
+<br>
 
 ```r
 raccoon$month <- month(raccoon$timestamp)
-my_sftrack <- as_sftrack(raccoon, burst = c(id='sensor_code', month = 'month'), coords = c('longitude','latitude'), time = 'timestamp', active_burst = 'id', crs= 'EPSG:4326')
+wsg <- 'EPSG:4326'
+my_sftrack <- as_sftrack(raccoon, burst = c(id='sensor_code', month = 'month'), coords = c('longitude','latitude'), time = 'timestamp', active_burst = 'id', crs= wsg)
 head(my_sftrack)
 ```
 
@@ -295,6 +301,7 @@ Burst : "burst" (*id*)
 
 `sftrack` in the data process - grouping
 ========================================================
+type: section
 class: small-code
 
 Active Burst  
@@ -315,6 +322,7 @@ plot(my_sftrack, axes = TRUE)
 
 `sftrack` in the data process - grouping
 ========================================================
+type: section
 class: small-code
 
 Changing group 
@@ -322,83 +330,26 @@ Changing group
 ```r
 #change active_burst
 active_burst(my_sftrack) <- c('id','month')
-plot(my_sftrack, axes = TRUE)
+par(mar = c(14, 14, 14, 14))
+plot(my_sftrack, axes = TRUE, key.pos=1)
 ```
 
 ![plot of chunk unnamed-chunk-10](sftrack_esa-figure/unnamed-chunk-10-1.png)
 
-`sftrack` in the data process - Calculate step metrics
+`sftrack` in the data process -fully integrated with sf
 ========================================================
+type: section
 class: smaller-code
 
-Calculate steps
 
-```r
-#change active_burst
-step_calc <- step_metrics(my_sftrack)[5:10,]
-summary(step_calc)
+
+
+
+
+
+
+
 ```
-
+Error in UseMethod("as_sftrack", object = data) : 
+  no applicable method for 'as_sftrack' applied to an object of class "function"
 ```
-       dx                dy               dist               dt       
- Min.   :-14.464   Min.   :-22.513   Min.   :  0.000   Min.   : 3574  
- 1st Qu.: -2.924   1st Qu.:-10.214   1st Qu.:  1.409   1st Qu.: 3581  
- Median : 52.779   Median : -5.837   Median : 10.669   Median : 3600  
- Mean   : 79.707   Mean   : -9.519   Mean   : 59.356   Mean   : 8396  
- 3rd Qu.:135.409   3rd Qu.: -5.142   3rd Qu.: 84.197   3rd Qu.: 3620  
- Max.   :227.733   Max.   : -3.891   Max.   :227.766   Max.   :32400  
- NA's   :2         NA's   :2                                          
-   abs_angle         speed            sftrack_id       
- Min.   :1.588   Min.   :0.0000000   Length:6          
- 1st Qu.:1.734   1st Qu.:0.0003942   Class :character  
- Median :2.380   Median :0.0029846   Mode  :character  
- Mean   :2.665   Mean   :0.0164976                     
- 3rd Qu.:3.311   3rd Qu.:0.0233958                     
- Max.   :4.312   Max.   :0.0632860                     
- NA's   :2                                             
-```
-
-Filter out points
-
-
-```r
-my_sftrack <- my_sftrack[step_calc$speed<100,]
-```
-
-`sftrack` in the data process - Plot points
-========================================================
-class: small-code
-
-
-```r
-library(OpenStreetMap)
-map1 <- openmap(c(26.08,-80.285),c(26.06,-80.265),zoom=15, type='bing')
-map1 <- openproj(map1)
-plot(map1)
-plot(my_sftrack, add= T,pch=4,lwd=2)
-```
-
-![plot of chunk unnamed-chunk-13](sftrack_esa-figure/unnamed-chunk-13-1.png)
-
-`sftrack` in the data process - Subset points
-========================================================
-class: small-code
-
-
-Core components yet to be installed
-========================================================
-- tibble methods
-- complete ggplot (limited set currently)
-- Standards, DBS connections? WKT?
-
-Needs work and input
-- base plot functions need to be expanding to link completely with `sf` plot methods.
-- Names
-
-How can you help?
-========================================================
-- We've gathered usecases, but appreciate more.
-- Please go to sftrack github and submit use cases ([github.com/mablab/sftrack](https://github.com/mablab/sftrack)).
-- A version should be up on CRAN soon. 
-- We need your input on many technical issues and the framework. (Perhaps will have issues up before conference)
-
