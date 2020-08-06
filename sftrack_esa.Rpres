@@ -13,6 +13,7 @@ knit_hooks$set(output = function(x, options) {
     x = paste(x, collapse = '\n')
   }
   hook_output(x, options)
+  
 })
 ```
 
@@ -208,6 +209,7 @@ class: small-code
 ```{r echo = FALSE}
 devtools::load_all("/home/matt/r_programs/sftrack")
 raccoon <- read.csv('/home/matt/Downloads/raccoon_data.csv')
+
 summary(raccoon)
 ```
 
@@ -238,7 +240,7 @@ type: section
 class: small-code
 ```{r, fig.width = 14, fig.align='center'}
 
-plot(my_sftrack, axes = T, graticule = TRUE, pch = 4, lwd=4)
+plot(my_sftrack, axes = T, graticule = TRUE, pch = 4, lwd=3.8)
 ```
 
 `sftrack` - manipulating like a data.frame
@@ -371,6 +373,7 @@ plot(my_sftrack, add= T, pch=4, lwd=2)
 ========================================================
 type: section
 class: small-code
+
 <br>
 ```{r, fig.width = 8, fig.align='center'}
 my_sftraj <- as_sftraj(my_sftrack)
