@@ -2,7 +2,7 @@
 raccoon <- read.csv('/home/matt/Downloads/gps_data (2).csv')
 library(lubridate)
 
-raccoon <- read.csv('/home/matt/Downloads/gps_data_animals (1).csv')
+raccoon <- read.csv('/home/matt/Downloads/gps_data_animals (2).csv')
 raccoon <- raccoon[,c('animals_code','acquisition_time','longitude','latitude','fix')]
 colnames(raccoon)[2] <- 'timestamp'
 colnames(raccoon)[1] <- 'animal_id'
