@@ -40,7 +40,8 @@
 
 
 .section .reveal .state-background {
-    background: url("/home/matt/r_programs/sftrack_esa/images/test_background.png");
+    <!-- background: url("/home/matt/r_programs/sftrack_esa/images/test_background.png"); -->
+    background: #3CCEFF
     background-position: right center;
     background-attachment: fixed;
     background-repeat: no-repeat;
