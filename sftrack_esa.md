@@ -160,7 +160,7 @@ left:30%
 
 ```
 Sftrack with 445 features and 8 fields (168 empty geometries) 
-Geometry : "geometry" (XY, crs: EPSG:4326) 
+Geometry : "geometry" (XY, crs: WGS 84) 
 Timestamp : "timestamp" (POSIXct in UTC) 
 Burst : "burst" (*id*) 
 -------------------------------
@@ -199,14 +199,13 @@ type: section
 class: small-code
 
 ```
-   animal_id                     timestamp       longitude         latitude       fix      
- TTP-053:2753   2018-07-26 15:02:30-04:    4   Min.   :-80.89   Min.   : 0.00   2D  :1978  
- TTP-026:2718   2018-07-30 02:02:30-04:    4   1st Qu.:-80.28   1st Qu.: 0.00   3D  :9570  
- TTP-014:2598   2018-08-01 17:02:30-04:    4   Median :-80.27   Median :26.07   NO  :5517  
- TTP-041:2511   2018-07-25 15:02:30-04:    3   Mean   :-54.89   Mean   :17.83   NULL: 382  
- TTP-002:2264   2018-07-25 18:02:30-04:    3   3rd Qu.:  0.00   3rd Qu.:26.07              
- TTP-058:2258   2018-07-25 20:02:30-04:    3   Max.   :  0.00   Max.   :27.89              
- (Other):2345   (Other)               :17426                                               
+  animal_id          timestamp           longitude         latitude         fix           
+ Length:17447       Length:17447       Min.   :-80.89   Min.   : 0.00   Length:17447      
+ Class :character   Class :character   1st Qu.:-80.28   1st Qu.: 0.00   Class :character  
+ Mode  :character   Mode  :character   Median :-80.27   Median :26.07   Mode  :character  
+                                       Mean   :-54.89   Mean   :17.83                     
+                                       3rd Qu.:  0.00   3rd Qu.:26.07                     
+                                       Max.   :  0.00   Max.   :27.89                     
 ```
 
 ```
@@ -256,7 +255,7 @@ print(my_sftrack, n_row=12)
 
 ```
 Sftrack with 4769 features and 7 fields (2236 empty geometries) 
-Geometry : "geometry" (XY, crs: EPSG:4326) 
+Geometry : "geometry" (XY, crs: WGS 84) 
 Timestamp : "timestamp" (POSIXct in UTC) 
 Burst : "burst" (*id*) 
 -------------------------------
@@ -385,7 +384,7 @@ head(step_calc)
 
 ```
           dx         dy       dist    dt  abs_angle        speed                  sftrack_id
-1         NA         NA         NA 86400         NA 0.000000e+00 TTP-041_2019-01-15 17:02:30
+1         NA         NA         NA 86400         NA           NA TTP-041_2019-01-15 17:02:30
 2 -18.008768 -53.593639  56.538428 86400 -1.8949668 6.543800e-04 TTP-041_2019-01-16 17:02:30
 3  -4.727009   4.625484   6.613601 86400  2.3670495 7.654631e-05 TTP-041_2019-01-17 17:02:30
 4 303.425593  47.756375 307.160807 25200  0.1561101 1.218892e-02 TTP-041_2019-01-18 17:02:30
@@ -406,14 +405,14 @@ summary(step_calc)
  3rd Qu.:   45.378   3rd Qu.:   54.129   3rd Qu.:  288.37   3rd Qu.: 3600   3rd Qu.: 1.5806  
  Max.   : 1700.460   Max.   :14427.086   Max.   :14427.40   Max.   :86400   Max.   : 3.1413  
  NA's   :2793        NA's   :2793        NA's   :2793       NA's   :2       NA's   :2794     
-     speed          sftrack_id       
- Min.   :0.00000   Length:4769       
- 1st Qu.:0.00000   Class :character  
- Median :0.00000   Mode  :character  
- Mean   :0.03341                     
- 3rd Qu.:0.02658                     
- Max.   :7.70282                     
- NA's   :2                           
+     speed         sftrack_id       
+ Min.   :0.0000   Length:4769       
+ 1st Qu.:0.0112   Class :character  
+ Median :0.0409   Mode  :character  
+ Mean   :0.0806                     
+ 3rd Qu.:0.0901                     
+ Max.   :7.7028                     
+ NA's   :2793                       
 ```
 
 `sftrack` - filtering
